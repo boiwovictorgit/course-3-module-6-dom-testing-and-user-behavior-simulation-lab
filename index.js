@@ -1,15 +1,70 @@
-// Step 1: Simulate User Behavior
-// - Add event listeners for button clicks and form submissions.
-// - Use JavaScript to dynamically update the DOM based on user actions.
+// Utility function
+function createElement(tag, attributes = {}) {
+  const element = document.createElement(tag);
 
-// Step 2: DOM Manipulation Functions
-// - Implement functions to add, update, and remove DOM elements.
-// - Ensure all elements are dynamically created with appropriate attributes and content.
+  for (const key in attributes) {
+    if (key === "textContent") {
+      element.textContent = attributes[key];
+    } else {
+      element.setAttribute(key, attributes[key]);
+    }
+  }
 
-// Step 3: Error Handling
-// - Display error messages in the DOM for invalid inputs or missing elements.
-// - Create reusable functions to handle common error cases.
+  return element;
+}
 
-// Step 4: Reusable Utilities
-// - Create modular utility functions, such as createElement(tag, attributes).
-// - Ensure all functions follow DRY principles for maintainability.
+// Add content to an element
+function addElementToDOM(elementId, text) {
+  const element = document.getElementById(elementId);
+
+  if (element) {
+    element.textContent = text;
+  }
+}
+
+// Remove an element
+function removeElementFromDOM(elementId) {
+  const element = document.getElementById(elementId);
+
+  if (element) {
+    element.remove();
+  }
+}
+
+// Simulate a button click
+function simulateClick(elementId, text) {
+  addElementToDOM(elementId, text);
+}
+
+// Handle form submission
+function handleFormSubmit(formId, outputId) {
+  const form = document.getElementById(formId);
+  const input = form.querySelector("input");
+  const output = document.getElementById(outputId);
+
+  let error = document.getElementById("error-message");
+
+  if (!error) {
+    error = document.createElement("div");
+    error.id = "error-message";
+    error.classList.add("hidden");
+    document.body.appendChild(error);
+  }
+
+  if (input.value.trim() === "") {
+    error.textContent = "Input cannot be empty";
+    error.classList.remove("hidden");
+    return;
+  }
+
+  error.classList.add("hidden");
+  output.textContent = input.value;
+}
+
+module.exports = {
+  createElement,
+  addElementToDOM,
+  removeElementFromDOM,
+  simulateClick,
+  handleFormSubmit,
+};
